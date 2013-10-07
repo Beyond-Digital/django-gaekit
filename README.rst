@@ -22,13 +22,14 @@ The full documentation is at http://django-gaekit.rtfd.org.
 Quickstart
 ----------
 
-For use with ::
+For use with https://github.com/Beyond-Digital/bynd-django-gae::
 
-    pip install django-gaekit
+Add django-gaekit==0.1.0 to requirements.txt, run make
 
-Then use it in a project::
+To use the storage backend, add the following to your settings module:
 
-	import gaekit
+    DEFAULT_FILE_STORAGE = 'gaekit.storages.CloudStorage'
+    GS_BUCKET_NAME = 'bucket_name'
 
 Features
 --------
