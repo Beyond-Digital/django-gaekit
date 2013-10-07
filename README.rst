@@ -22,16 +22,18 @@ The full documentation is at http://django-gaekit.rtfd.org.
 Quickstart
 ----------
 
-For use with https://github.com/Beyond-Digital/bynd-django-gae::
+Use template from https://github.com/Beyond-Digital/bynd-django-gae
 
-Add django-gaekit==0.1.1 to requirements.txt, run make
+To use with virtualenv, add the following to your requirements.txt::
+
+    django-gaekit==0.1.1
 
 To use the storage backend, add the following to your settings module::
 
     DEFAULT_FILE_STORAGE = 'gaekit.storages.CloudStorage'
     GS_BUCKET_NAME = 'bucket_name'
 
-To use the cache backend, add the following to your settings module:
+To use the cache backend, add the following to your settings module::
 
     CACHES = {
         'default': {
@@ -40,7 +42,7 @@ To use the cache backend, add the following to your settings module:
         }
     }
 
-To import blacklisted modules, in your **local** settings module :
+To import blacklisted modules, in your **local** settings module::
     
     from gaekit.boot import break_sandbox
     break_sandbox()
