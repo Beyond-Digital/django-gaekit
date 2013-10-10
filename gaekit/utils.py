@@ -1,4 +1,4 @@
-.travis.ymlfrom django.core.cache import cache
+from django.core.cache import cache
 from functools import wraps
 
 import copy
