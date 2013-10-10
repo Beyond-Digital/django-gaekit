@@ -1,4 +1,4 @@
-from django.core.cache import cache
+.travis.ymlfrom django.core.cache import cache
 from functools import wraps
 
 import copy
@@ -41,8 +41,8 @@ def _release_lock(key):
 def distlock(func, attempts=1, expires=30):
     def locked_func(*args):
         try:
-            with memcache_lock([func.__name__] + args, attempts, expires):
-                return func(args)
+            with memcache_lock([func.__name__] + list(args), attempts, expires):
+                return func(*args)
         except MemcacheLockException: 
             return False
 
