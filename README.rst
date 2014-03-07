@@ -26,7 +26,7 @@ Use template from https://github.com/Beyond-Digital/bynd-django-gae
 
 To use with virtualenv, add the following to your requirements.txt::
 
-    django-gaekit==0.1.1
+    django-gaekit==0.1.2
 
 To use the storage backend, add the following to your settings module::
 
@@ -47,27 +47,10 @@ To import blacklisted modules, in your **local** settings module::
     from gaekit.boot import break_sandbox
     break_sandbox()
 
-To use the distibuted lock::
-
-    from gaekit.utils import distlock
-
-    @distlock
-    def syncronised_function():
-        do_stuff()
-
-To use the memoizer::
-
-    from gaekit.utils import cached
-
-    @cached
-    def expensive_function(*args):
-        return do_stuff()
-
 Features
 --------
 
 * Storage Backend using Google Cloud Storage
 * Cache backend using Memcache
 * Import blacklisted modules in the SDK (eg sqlite3)
-* Memoizing Decorator
-* Distributed locks using memcache
+

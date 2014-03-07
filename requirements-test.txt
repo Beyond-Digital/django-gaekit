@@ -8,5 +8,5 @@ pyyaml
 webob
 ipaddr
 antlr-python-runtime
-GoogleAppEngineCloudStorageClient==1.8.3.1
+svn+http://appengine-gcs-client.googlecode.com/svn/trunk/python/src##egg=GoogleAppEngineCloudStorageClient
 PIL==1.1.7
