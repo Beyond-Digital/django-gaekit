@@ -9,4 +9,4 @@ webob
 ipaddr
 http://antlr3.org/download/Python/antlr_python_runtime-3.1.3.tar.gz#egg=antlr-python-runtime
 svn+http://appengine-gcs-client.googlecode.com/svn/trunk/python/src##egg=GoogleAppEngineCloudStorageClient
-PIL==1.1.7
+Pillow==2.3.0
