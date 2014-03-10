@@ -30,7 +30,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author='George Whewell',
     author_email='george@bynd.com',
-    url='https://github.com/georgewhewell/django-gaekit',
+    url='https://github.com/Beyond-Digital/django-gaekit',
     packages=[
         'gaekit',
     ],

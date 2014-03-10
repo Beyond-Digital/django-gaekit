@@ -9,6 +9,7 @@ import mimetypes
 import cloudstorage
 import os
 import datetime
+import logging
 
 
 class CloudStorage(Storage):
@@ -61,5 +62,9 @@ class CloudStorage(Storage):
             for obj in cloudstorage.listbucket(realpath)])
 
     def url(self, filename):
-        key = blobstore.create_gs_key('/gs' + filename)
-        return images.get_serving_url(key)
+        try:
+            key = blobstore.create_gs_key('/gs' + filename)
+            url = images.get_serving_url(key)
+        except Exception as exp:
+            logging.error('Exception generating url to %s: %s', filename, exp)
+        return url

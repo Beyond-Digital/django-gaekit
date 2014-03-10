@@ -2,6 +2,10 @@
 
 History
 -------
+0.1.3 (2014-03-10)
+++++++++++++++++++
+
+* Add exception logging if URL generation fails
 
 0.1.2 (2014-03-07)
 ++++++++++++++++++
