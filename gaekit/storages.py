@@ -69,9 +69,5 @@ class CloudStorage(Storage):
         except Exception as exp:
             logging.error('Exception generating url to %s: %s', filename, exp)
             u = urlparse.urlsplit(filename)
-            if u.scheme == 'gs':
-                url = urlparse.urlunsplit((
-                    'https',
-                    '%s.storage.googleapis.com' % u.netloc,
-                    u.path, '', ''))
+            url = 'https://storage.googleapis.com{path}'.format(path=u.path)
         return url
