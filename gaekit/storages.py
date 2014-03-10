@@ -10,6 +10,7 @@ import cloudstorage
 import os
 import datetime
 import logging
+import urlparse
 
 
 class CloudStorage(Storage):
@@ -67,4 +68,10 @@ class CloudStorage(Storage):
             url = images.get_serving_url(key)
         except Exception as exp:
             logging.error('Exception generating url to %s: %s', filename, exp)
+            u = urlparse.urlsplit(filename)
+            if u.scheme == 'gs':
+                url = urlparse.urlunsplit((
+                    'https',
+                    '%s.storage.googleapis.com' % u.netloc,
+                    u.path, '', ''))
         return url
