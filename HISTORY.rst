@@ -2,6 +2,10 @@
 
 History
 ------
+0.2.7 (2014-04-17)
+++++++++++++++++++
+
+* Add FeedListKeyConstructor for drf_extensions
 
 0.1.4 (2014-03-10)
 ++++++++++++++++++
