@@ -65,7 +65,7 @@ class CloudStorage(Storage):
     def url(self, filename):
         try:
             key = blobstore.create_gs_key('/gs' + filename)
-            url = images.get_serving_url(key, secure_url=True)
+            url = images.get_serving_url(key, size=1600, secure_url=True)
         except Exception as exp:
             logging.error('Exception generating url to %s: %s', filename, exp)
             u = urlparse.urlsplit(filename)
