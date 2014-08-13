@@ -13,6 +13,19 @@ import logging
 import urlparse
 
 
+DEFAULT_SIZE = None
+if hasattr(settings, 'IMAGESERVICE_DEFAULT_SIZE'):
+    DEFAULT_SIZE = getattr(settings, 'IMAGESERVICE_DEFAULT_SIZE')
+
+SECURE = True
+if hasattr(settings, 'IMAGESERVICE_SECURE_URLS'):
+    SECURE = getattr(settings, 'IMAGESERVICE_SECURE_URLS')
+
+HEADERS = {'x-goog-acl': 'public-read'}
+if hasattr(settings, 'IMAGESERVICE_UPLOAD_HEADERS'):
+    HEADERS = getattr(settings, 'IMAGESERVICE_UPLOAD_HEADERS')
+
+
 class CloudStorage(Storage):
 
     def __init__(self, **kwargs):
@@ -40,10 +53,11 @@ class CloudStorage(Storage):
         return readbuffer
 
     def _save(self, filename, content):
-        with cloudstorage.open(os.path.join(self.bucket_name, filename),
-            'w',
+        path = os.path.join(self.bucket_name, filename)
+        with cloudstorage.open(
+            path, 'w',
             content_type=mimetypes.guess_type(filename)[0],
-            options={'x-goog-acl': 'public-read'}) as handle:
+            options=HEADERS) as handle:
             handle.write(content.read())
         return os.path.join(self.bucket_name, filename)
 
@@ -65,7 +79,7 @@ class CloudStorage(Storage):
     def url(self, filename):
         try:
             key = blobstore.create_gs_key('/gs' + filename)
-            url = images.get_serving_url(key, size=1600, secure_url=True)
+            url = images.get_serving_url(key, size=DEFAULT_SIZE, secure_url=SECURE)
         except Exception as exp:
             logging.error('Exception generating url to %s: %s', filename, exp)
             u = urlparse.urlsplit(filename)
