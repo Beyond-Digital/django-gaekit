@@ -26,7 +26,7 @@ Use template from https://github.com/Beyond-Digital/bynd-django-gae
 
 To use with virtualenv, add the following to your requirements.txt::
 
-    django-gaekit==0.2.7
+    django-gaekit==0.2.9
 
 To use the storage backend, add the following to your settings module::
 

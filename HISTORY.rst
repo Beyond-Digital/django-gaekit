@@ -2,10 +2,15 @@
 
 History
 ------
-0.2.8 (2014-08-13)
+0.2.9 (2014-08-13)
 ++++++++++++++++++
 
 * Break out options IMAGESERVICE_DEFAULT_SIZE, IMAGESERVICE_SECURE_URLS and IMAGESERVICE_UPLOAD_HEADERS
+
+0.2.8 (2014-08-13)
+++++++++++++++++++
+
+* Duff release
 
 0.2.7 (2014-04-17)
 ++++++++++++++++++
