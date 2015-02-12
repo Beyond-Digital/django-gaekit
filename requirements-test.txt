@@ -2,5 +2,5 @@
 django-nose>=1.3
 nose>=1.3.0
 Pillow==2.7.0
-python-appengine==0.2
+python-appengine==1.9.15
 pyyaml==3.11
