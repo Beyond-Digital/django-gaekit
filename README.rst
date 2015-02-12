@@ -1,16 +1,17 @@
 =============================
 django-gaekit
 =============================
-
-.. image:: https://badge.fury.io/py/django-gaekit.png
-    :target: http://badge.fury.io/py/django-gaekit
     
-.. image:: https://travis-ci.org/georgewhewell/django-gaekit.png?branch=master
+.. image:: https://travis-ci.org/Beyond-Digital/django-gaekit.png?branch=master
         :target: https://travis-ci.org/Beyond-Digital/django-gaekit
 
-.. image:: https://pypip.in/d/django-gaekit/badge.png
-        :target: https://crate.io/packages/django-gaekit?version=latest
+.. image:: https://pypip.in/version/django-gaekit/badge.svg?style=flat
+    :target: https://pypi.python.org/pypi/django-gaekit/
+    :alt: Latest Version
 
+.. image:: https://requires.io/github/Beyond-Digital/django-gaekit/requirements.svg?branch=master
+     :target: https://requires.io/github/Beyond-Digital/django-gaekit/requirements/?branch=master
+     :alt: Requirements Status
 
 Collection of backends, wrappers and utilities to enquicken django development on Google App Engine
 
