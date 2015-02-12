@@ -38,7 +38,6 @@ To use the cache backend, add the following to your settings module::
     CACHES = {
         'default': {
             'BACKEND': 'gaekit.caches.GAEMemcachedCache',
-            'TIMEOUT': 0,
         }
     }
 
@@ -53,4 +52,3 @@ Features
 * Storage Backend using Google Cloud Storage
 * Cache backend using Memcache
 * Import blacklisted modules in the SDK (eg sqlite3)
-

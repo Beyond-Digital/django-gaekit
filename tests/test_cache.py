@@ -285,20 +285,6 @@ class MemcachedCacheTests(TestCase):
         self.assertEqual(self.cache.get('key3'), 'sausage')
         self.assertEqual(self.cache.get('key4'), 'lobster bisque')
 
-    def test_zero_timeout(self):
-        '''
-        Passing in None into timeout results in a value that is cached forever
-        '''
-        self.cache.set('key1', 'eggs', 0)
-        self.assertEqual(self.cache.get('key1'), 'eggs')
-
-        self.cache.add('key2', 'ham', 0)
-        self.assertEqual(self.cache.get('key2'), 'ham')
-
-        self.cache.set_many({'key3': 'sausage', 'key4': 'lobster bisque'}, 0)
-        self.assertEqual(self.cache.get('key3'), 'sausage')
-        self.assertEqual(self.cache.get('key4'), 'lobster bisque')
-
     def test_float_timeout(self):
         # Make sure a timeout given as a float doesn't crash anything.
         self.cache.set("key1", "spam", 100.2)
