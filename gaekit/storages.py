@@ -57,7 +57,8 @@ class CloudStorage(Storage):
         with cloudstorage.open(
             path, 'w',
             content_type=mimetypes.guess_type(filename)[0],
-            options=HEADERS) as handle:
+            options=HEADERS
+        ) as handle:
             handle.write(content.read())
         return os.path.join(self.bucket_name, filename)
 
@@ -69,17 +70,17 @@ class CloudStorage(Storage):
         return name
 
     def listdir(self, path):
-        if path:
-            realpath = os.path.join(self.bucket_name, path)
-        else:
-            realpath = self.bucket_name
+        realpath = self.bucket_name if path else \
+            os.path.join(self.bucket_name, path)
+
         return ([], [obj.filename[len(self.bucket_name)+1:]
-            for obj in cloudstorage.listbucket(realpath)])
+                for obj in cloudstorage.listbucket(realpath)])
 
     def url(self, filename):
         try:
             key = blobstore.create_gs_key('/gs' + filename)
-            url = images.get_serving_url(key, size=DEFAULT_SIZE, secure_url=SECURE)
+            url = images.get_serving_url(
+                key, size=DEFAULT_SIZE, secure_url=SECURE)
         except Exception as exp:
             logging.error('Exception generating url to %s: %s', filename, exp)
             u = urlparse.urlsplit(filename)
