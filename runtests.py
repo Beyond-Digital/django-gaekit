@@ -17,7 +17,7 @@ try:
                 "BACKEND": "gaekit.caches.GAEMemcachedCache"
             }
         },
-        DEFAULT_FILE_STORAGE = 'gaekit.storages.CloudStorage',
+        DEFAULT_FILE_STORAGE='gaekit.storages.CloudStorage',
         GS_BUCKET_NAME='test',
         ROOT_URLCONF="gaekit.urls",
         INSTALLED_APPS=[

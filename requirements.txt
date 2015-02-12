@@ -1,2 +1,1 @@
-svn+http://appengine-gcs-client.googlecode.com/svn/trunk/python/src##egg=GoogleAppEngineCloudStorageClient
-# Additional requirements go here
+GoogleAppEngineCloudStorageClient==1.9.15.0
