@@ -2,6 +2,14 @@
 
 History
 ------
+1.0.0 (2015-02-18)
+++++++++++++++++++
+
+* Remove dependency on ImageService. URLs are now constructed from bucket name, with no RPC calls.
+* Resolved inconsistencies with returning bucket name as part of path. This is now hidden.
+* Deprecated ImageService-specific options. IMAGESERVICE_DEFAULT_SIZE and IMAGESERVICE_SECURE_URLS.
+* Deprecated drf_extensions module.
+
 0.2.9 (2014-08-13)
 ++++++++++++++++++
 

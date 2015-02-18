@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# from google.appengine.ext import blobstore
-# from google.appengine.api import images
+from google.appengine.ext import blobstore
+from google.appengine.api import images
 
 from django.conf import settings
 from django.core.files.storage import Storage
@@ -8,18 +8,8 @@ from django.core.files.storage import Storage
 import mimetypes
 import cloudstorage
 import datetime
-# import logging
-# import urlparse
 
 from .utils import is_hosted
-
-DEFAULT_SIZE = None
-if hasattr(settings, 'IMAGESERVICE_DEFAULT_SIZE'):
-    DEFAULT_SIZE = getattr(settings, 'IMAGESERVICE_DEFAULT_SIZE')
-
-SECURE = True
-if hasattr(settings, 'IMAGESERVICE_SECURE_URLS'):
-    SECURE = getattr(settings, 'IMAGESERVICE_SECURE_URLS')
 
 HEADERS = {'x-goog-acl': 'public-read'}
 if hasattr(settings, 'IMAGESERVICE_UPLOAD_HEADERS'):
@@ -75,8 +65,7 @@ class CloudStorage(Storage):
 
     def url(self, filename):
         if not is_hosted():
-            return '/_ah/img/encoded_gs_file:{path}'.format(
-                path=self._real_path(filename).encode('base64')
-            )
+            key = blobstore.create_gs_key('/gs' + self._real_path(filename))
+            return images.get_serving_url(key)
         return 'https://storage.googleapis.com{path}'.format(
                 path=self._real_path(filename))
