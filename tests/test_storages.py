@@ -50,6 +50,7 @@ class BlobStorageTests(unittest.TestCase):
         self.assertFalse(self.storage.exists('test.file'))
         f = ContentFile('custom contents')
         storage_f_name = self.storage.save('test.file', f)
+        print(storage_f_name)
         self.assertTrue(self.storage.exists(storage_f_name))
 
     def test_file_created_time(self):
@@ -77,7 +78,7 @@ class BlobStorageTests(unittest.TestCase):
         f = ContentFile('custom contents')
         f.name = 'test.file'
         storage_f_name = self.storage.save(None, f)
-        self.assertEqual(storage_f_name, '/' + settings.GS_BUCKET_NAME + '/' + f.name)
+        self.assertTrue(self.storage.exists(f.name))
         self.storage.delete(storage_f_name)
 
     def test_save_file_contents(self):
@@ -103,29 +104,9 @@ class BlobStorageTests(unittest.TestCase):
         f = ContentFile('custom contents')
         f_name = self.storage.save('test.file', f)
 
-        self.assertEqual(self.storage.path(f_name),
-            os.path.join('/' + settings.GS_BUCKET_NAME, f_name))
+        self.assertEqual(self.storage.path(f_name), f_name)
 
         self.storage.delete(f_name)
-
-    def test_listdir(self):
-        """
-        File storage returns a tuple containing directories and files.
-        """
-        self.assertFalse(self.storage.exists('storage_test_1'))
-        self.assertFalse(self.storage.exists('storage_test_2'))
-        self.assertFalse(self.storage.exists('storage_dir_1'))
-
-        f = self.storage.save('storage_test_1', ContentFile('custom content'))
-        f = self.storage.save('storage_test_2', ContentFile('custom content'))
-        # os.mkdir(os.path.join(self.temp_dir, 'storage_dir_1'))
-
-        dirs, files = self.storage.listdir('')
-        self.assertEqual(set(files),
-                         set(['storage_test_1', 'storage_test_2']))
-
-        self.storage.delete('storage_test_1')
-        self.storage.delete('storage_test_2')
 
     def test_file_storage_preserves_filename_case(self):
         """The storage backend should preserve case of filenames."""

@@ -39,6 +39,7 @@ class CloudStorage(Storage):
         return path[len(self._real_path('')):]
 
     def delete(self, filename):
+        assert(filename)
         try:
             cloudstorage.delete(self._real_path(filename))
         except cloudstorage.NotFoundError:
