@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
-from google.appengine.ext import blobstore
-from google.appengine.api import images
+# from google.appengine.ext import blobstore
+# from google.appengine.api import images
 
 from django.conf import settings
 from django.core.files.storage import Storage
 
 import mimetypes
 import cloudstorage
-import os
 import datetime
-import logging
-import urlparse
+# import logging
+# import urlparse
 
+from .utils import is_hosted
 
 DEFAULT_SIZE = None
 if hasattr(settings, 'IMAGESERVICE_DEFAULT_SIZE'):
@@ -30,59 +30,52 @@ class CloudStorage(Storage):
 
     def __init__(self, **kwargs):
         cloudstorage.validate_bucket_name(settings.GS_BUCKET_NAME)
-        self.bucket_name = '/' + settings.GS_BUCKET_NAME
+        self.bucket_name = settings.GS_BUCKET_NAME
+
+    def _real_path(self, path):
+        return '/' + self.bucket_name + '/' + path
+
+    def _fake_path(self, path):
+        return path[len(self._real_path('')):]
 
     def delete(self, filename):
-        assert(filename)
         try:
-            cloudstorage.delete(os.path.join(self.bucket_name, filename))
+            cloudstorage.delete(self._real_path(filename))
         except cloudstorage.NotFoundError:
             pass
 
     def exists(self, filename):
         try:
-            cloudstorage.stat(os.path.join(self.bucket_name, filename))
+            cloudstorage.stat(self._real_path(filename))
             return True
         except cloudstorage.NotFoundError:
             return False
 
     def _open(self, filename, mode):
-        readbuffer = cloudstorage.open(
-            os.path.join(self.bucket_name, filename), 'r')
+        readbuffer = cloudstorage.open(self._real_path(filename), 'r')
         readbuffer.open = lambda x: True
         return readbuffer
 
     def _save(self, filename, content):
-        path = os.path.join(self.bucket_name, filename)
         with cloudstorage.open(
-            path, 'w',
+            self._real_path(filename), 'w',
             content_type=mimetypes.guess_type(filename)[0],
             options=HEADERS
         ) as handle:
             handle.write(content.read())
-        return os.path.join(self.bucket_name, filename)
+        return filename
 
     def created_time(self, filename):
-        filestat = cloudstorage.stat(os.path.join(self.bucket_name, filename))
+        filestat = cloudstorage.stat(self._real_path(filename))
         return datetime.datetime.fromtimestamp(filestat.st_ctime)
 
     def path(self, name):
         return name
 
-    def listdir(self, path):
-        realpath = self.bucket_name if path else \
-            os.path.join(self.bucket_name, path)
-
-        return ([], [obj.filename[len(self.bucket_name)+1:]
-                for obj in cloudstorage.listbucket(realpath)])
-
     def url(self, filename):
-        try:
-            key = blobstore.create_gs_key('/gs' + filename)
-            url = images.get_serving_url(
-                key, size=DEFAULT_SIZE, secure_url=SECURE)
-        except Exception as exp:
-            logging.error('Exception generating url to %s: %s', filename, exp)
-            u = urlparse.urlsplit(filename)
-            url = 'https://storage.googleapis.com{path}'.format(path=u.path)
-        return url
+        if not is_hosted():
+            return '/_ah/img/encoded_gs_file:{path}'.format(
+                path=self._real_path(filename).encode('base64')
+            )
+        return 'https://storage.googleapis.com{path}'.format(
+                path=self._real_path(filename))
