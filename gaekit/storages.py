@@ -42,6 +42,10 @@ class CloudStorage(Storage):
         except cloudstorage.NotFoundError:
             return False
 
+    def size(self, name):
+        stats = cloudstorage.stat(self._real_path(name))
+        return stats.st_size
+
     def _open(self, filename, mode):
         readbuffer = cloudstorage.open(self._real_path(filename), 'r')
         readbuffer.open = lambda x: True
@@ -68,4 +72,5 @@ class CloudStorage(Storage):
             key = blobstore.create_gs_key('/gs' + self._real_path(filename))
             return images.get_serving_url(key)
         return 'https://storage.googleapis.com{path}'.format(
-                path=self._real_path(filename))
+            path=self._real_path(filename)
+        )
