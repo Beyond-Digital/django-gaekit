@@ -4,7 +4,7 @@ django-gaekit
 
 Collection of backends, wrappers and utilities to enquicken django development on Google App Engine
 
-.. image:: https://travis-ci.org/Beyond-Digital/django-gaekit.png?branch=master
+.. image:: https://travis-ci.org/Beyond-Digital/django-gaekit.svg?branch=master
         :target: https://travis-ci.org/Beyond-Digital/django-gaekit
 
 .. image:: https://pypip.in/version/django-gaekit/badge.svg?style=flat
