@@ -26,7 +26,9 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 setup(
     name='django-gaekit',
     version=version,
-    description='Collection of backends, wrappers and utilities to enquicken django development on Google App Engine',
+    description=(
+        'Collection of backends, wrappers and utilities '
+        'to enquicken django development on Google App Engine'),
     long_description=readme + '\n\n' + history,
     author='George Whewell',
     author_email='george@bynd.com',
