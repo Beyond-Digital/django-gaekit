@@ -24,6 +24,7 @@ try:
             "django.contrib.contenttypes",
             "django.contrib.sites",
             "gaekit",
+            "tests",
         ],
         SITE_ID=1,
     )
