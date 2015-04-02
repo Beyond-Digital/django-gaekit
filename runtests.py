@@ -1,5 +1,4 @@
 import sys
-from optparse import OptionParser
 
 try:
     from django.conf import settings
@@ -27,28 +26,29 @@ try:
             "gaekit",
         ],
         SITE_ID=1,
-        NOSE_ARGS=['-s'],
     )
 
-    from django_nose import NoseTestSuiteRunner
+    try:
+        import django
+        setup = django.setup
+    except AttributeError:
+        pass
+    else:
+        setup()
+
+    from django.test.utils import get_runner
 except ImportError:
-    raise ImportError("To fix this error, run: pip install -r requirements-test.txt")
+    import traceback
+    traceback.print_exc()
+    raise ImportError(
+        "To fix this error, run: pip install -r requirements-test.txt")
 
 
 def run_tests(*test_args):
-    if not test_args:
-        test_args = ['tests']
-
-    # Run tests
-    test_runner = NoseTestSuiteRunner(verbosity=1)
-
-    failures = test_runner.run_tests(test_args)
-
-    if failures:
-        sys.exit(failures)
-
+    TestRunner = get_runner(settings)
+    test_runner = TestRunner()
+    failures = test_runner.run_tests(['tests'])
+    sys.exit(bool(failures))
 
 if __name__ == '__main__':
-    parser = OptionParser()
-    (options, args) = parser.parse_args()
-    run_tests(*args)
+    run_tests(*sys.argv[1:])
