@@ -77,3 +77,10 @@ class CloudStorage(Storage):
         return 'https://storage.googleapis.com{path}'.format(
             path=self._real_path(filename)
         )
+
+
+class CloudStaticStorage(CloudStorage):
+
+    def __init__(self, *args, **kwargs):
+        super(CloudStaticStorage, self).__init__(*args, **kwargs)
+        self.bucket_name += settings.STATIC_URL[:-1]
