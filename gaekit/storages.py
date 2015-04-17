@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from google.appengine.ext import blobstore
 from google.appengine.api import images
+from google.appengine.api import app_identity
 
 from django.conf import settings
 from django.core.files.storage import Storage
@@ -19,8 +20,10 @@ if hasattr(settings, 'IMAGESERVICE_UPLOAD_HEADERS'):
 class CloudStorage(Storage):
 
     def __init__(self, **kwargs):
-        cloudstorage.validate_bucket_name(settings.GS_BUCKET_NAME)
-        self.bucket_name = settings.GS_BUCKET_NAME
+        self.bucket_name = getattr(settings, 'GS_BUCKET_NAME', None)
+        if self.bucket_name is None:
+            self.bucket_name = app_identity.get_default_gcs_bucket_name()
+        cloudstorage.validate_bucket_name(self.bucket_name)
 
     def _real_path(self, path):
         return '/' + self.bucket_name + '/' + path
