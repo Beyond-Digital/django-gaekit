@@ -19,7 +19,7 @@ INSTALLED_APPS=[
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'taggit',
-    'compress',
+    'compressor',
     'wagtail.wagtailcore',
     'wagtail.wagtailadmin',
     'wagtail.wagtaildocs',
