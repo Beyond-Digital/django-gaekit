@@ -1,0 +1,2 @@
+git+https://github.com/torchbox/wagtail.git@v1.0b1#egg=wagtail
+django-compressor==1.5

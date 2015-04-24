@@ -1,8 +1,11 @@
+import os
 import sys
 
-try:
-    from django.conf import settings
+from django.conf import settings
+from django.test.utils import get_runner
 
+
+def configure_settings():
     settings.configure(
         DEBUG=True,
         USE_TZ=True,
@@ -17,18 +20,19 @@ try:
             }
         },
         DEFAULT_FILE_STORAGE='gaekit.storages.CloudStorage',
-        GS_BUCKET_NAME='test',
-        ROOT_URLCONF="gaekit.urls",
         INSTALLED_APPS=[
-            "django.contrib.auth",
-            "django.contrib.contenttypes",
-            "django.contrib.sites",
             "gaekit",
             "tests",
         ],
         SITE_ID=1,
+        ROOT_URLCONF='tests.urls',
     )
 
+
+def configure_wagtail_settings():
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.wagtail_settings")
+
+def init_django():
     try:
         import django
         setup = django.setup
@@ -37,18 +41,30 @@ try:
     else:
         setup()
 
-    from django.test.utils import get_runner
-except ImportError:
-    import traceback
-    traceback.print_exc()
-    raise ImportError(
-        "To fix this error, run: pip install -r requirements-test.txt")
+
+def init_testbed():
+    from google.appengine.ext import testbed
+    testbed = testbed.Testbed()
+    testbed.activate()
+    testbed.init_all_stubs()
 
 
 def run_tests(*test_args):
+    settings_func = configure_settings
+    tests = ['tests']
+
+    if 'wagtail' in test_args:
+        settings_func = configure_wagtail_settings
+        tests = ['wagtail.wagtailimages.tests']
+
+    settings_func()
+    init_testbed()
+    init_django()
+
     TestRunner = get_runner(settings)
     test_runner = TestRunner()
-    failures = test_runner.run_tests(['tests'])
+
+    failures = test_runner.run_tests(tests)
     sys.exit(bool(failures))
 
 if __name__ == '__main__':
