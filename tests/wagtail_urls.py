@@ -5,8 +5,8 @@ from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 from wagtail.wagtailimages import urls as wagtailimages_urls
 from wagtail.wagtailsearch import urls as wagtailsearch_urls
-from wagtail.contrib.wagtailsitemaps.views import sitemap
-from wagtail.contrib.wagtailapi import urls as wagtailapi_urls
+# from wagtail.contrib.wagtailsitemaps.views import sitemap
+# from wagtail.contrib.wagtailapi import urls as wagtailapi_urls
 
 
 urlpatterns = [
@@ -15,8 +15,8 @@ urlpatterns = [
     url(r'^documents/', include(wagtaildocs_urls)),
     url(r'^images/', include(wagtailimages_urls)),
 
-    url(r'^api/', include(wagtailapi_urls)),
-    url(r'^sitemap\.xml$', sitemap),
+    # url(r'^api/', include(wagtailapi_urls)),
+    # url(r'^sitemap\.xml$', sitemap),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's serving mechanism

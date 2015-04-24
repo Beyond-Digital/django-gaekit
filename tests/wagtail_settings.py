@@ -1,3 +1,6 @@
+import os
+from django.conf import global_settings
+
 DEBUG=False,
 USE_TZ=True
 DATABASES={
@@ -11,6 +14,7 @@ CACHES={
     }
 }
 DEFAULT_FILE_STORAGE='gaekit.storages.CloudStorage'
+
 INSTALLED_APPS=[
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -28,7 +32,6 @@ INSTALLED_APPS=[
     'wagtail.wagtailredirects.apps.WagtailRedirectsAppConfig',
 
     "gaekit",
-    "tests",
 ]
 MIDDLEWARE_CLASSES=(
     'django.middleware.common.CommonMiddleware',
@@ -41,7 +44,15 @@ MIDDLEWARE_CLASSES=(
     'wagtail.wagtailcore.middleware.SiteMiddleware',
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
 )
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.request',
+)
 SITE_ID=1
 ROOT_URLCONF='tests.wagtail_urls'
 WAGTAIL_SITE_NAME="Test Site"
+
 SECRET_KEY = 'notasecret'
+STATIC_URL = '/static/'
+
+WAGTAIL_ROOT = os.path.dirname(__file__)
+STATIC_ROOT = os.path.join(WAGTAIL_ROOT, 'test-static')
