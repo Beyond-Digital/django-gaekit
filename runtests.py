@@ -3,7 +3,6 @@ import sys
 import unittest
 
 from django.conf import settings
-from django.test.utils import get_runner
 
 
 def configure_settings():
@@ -95,6 +94,7 @@ def run_tests(*test_args):
     if 'wagtail' in test_args:
         patch_wagtail_settings()
 
+    from django.test.utils import get_runner
     TestRunner = get_runner(settings)
     test_runner = TestRunner()
 
