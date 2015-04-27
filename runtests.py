@@ -46,6 +46,10 @@ def patch_wagtail_settings():
     from wagtail.wagtailimages.tests import test_rich_text
     test_rich_text.TestImageEmbedHandler.fixtures = [fixture_path]
 
+    import warnings
+    warnings.simplefilter('default', DeprecationWarning)
+    warnings.simplefilter('default', PendingDeprecationWarning)
+
 
 def init_django():
     try:

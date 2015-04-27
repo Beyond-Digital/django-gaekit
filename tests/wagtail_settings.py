@@ -45,13 +45,23 @@ INSTALLED_APPS=[
     'wagtail.wagtailcore',
     'wagtail.wagtailadmin',
     'wagtail.wagtaildocs',
+    'wagtail.wagtailsnippets',
     'wagtail.wagtailusers',
+    'wagtail.wagtailsites',
     'wagtail.wagtailimages',
+    'wagtail.wagtailembeds',
     'wagtail.wagtailsearch',
     'wagtail.wagtailforms',
-    'wagtail.wagtailredirects.apps.WagtailRedirectsAppConfig',
+    'wagtail.contrib.wagtailstyleguide',
+    'wagtail.contrib.wagtailsitemaps',
+    'wagtail.contrib.wagtailroutablepage',
+    'wagtail.contrib.wagtailfrontendcache',
     'wagtail.tests',
 
+    # Install wagtailredirects with its appconfig
+    # Theres nothing special about wagtailredirects, we just need to have one
+    # app which uses AppConfigs to test that hooks load properly
+    'wagtail.wagtailredirects.apps.WagtailRedirectsAppConfig',
     "gaekit",
 ]
 MIDDLEWARE_CLASSES=(
@@ -59,7 +69,6 @@ MIDDLEWARE_CLASSES=(
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'wagtail.wagtailcore.middleware.SiteMiddleware',
