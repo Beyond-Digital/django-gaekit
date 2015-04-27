@@ -8,12 +8,12 @@ DATABASES={
         "ENGINE": "django.db.backends.sqlite3",
     }
 }
-# CACHES={
-#     "default": {
-#         "BACKEND": "gaekit.caches.GAEMemcachedCache"
-#     }
-# }
-# DEFAULT_FILE_STORAGE='gaekit.storages.CloudStorage'
+CACHES={
+    "default": {
+        "BACKEND": "gaekit.caches.GAEMemcachedCache"
+    }
+}
+DEFAULT_FILE_STORAGE='gaekit.storages.CloudStorage'
 
 CACHES = {
     'default': {
