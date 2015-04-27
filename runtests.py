@@ -1,5 +1,6 @@
 import os
 import sys
+import unittest
 
 from django.conf import settings
 from django.test.utils import get_runner
@@ -34,6 +35,7 @@ def configure_wagtail_settings():
 
 
 def patch_wagtail_settings():
+    # fix fixture paths to be absolute paths
     from wagtail import tests
     from wagtail.wagtailimages.tests import test_models
     fixture_path = os.path.join(
@@ -46,6 +48,16 @@ def patch_wagtail_settings():
     from wagtail.wagtailimages.tests import test_rich_text
     test_rich_text.TestImageEmbedHandler.fixtures = [fixture_path]
 
+    # skip these test - they rely on media URL matching filename
+    from wagtail.wagtailimages.tests.tests import TestMissingImage
+    TestMissingImage.test_image_tag_with_missing_image = \
+        unittest.skip('Unsupported')(
+            TestMissingImage.test_image_tag_with_missing_image)
+    TestMissingImage.test_rich_text_with_missing_image = \
+        unittest.skip('Unsupported')(
+            TestMissingImage.test_rich_text_with_missing_image)
+
+    # filter these warnings
     import warnings
     warnings.simplefilter('default', DeprecationWarning)
     warnings.simplefilter('default', PendingDeprecationWarning)
