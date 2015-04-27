@@ -51,7 +51,7 @@ SITE_ID=1
 ROOT_URLCONF='tests.wagtail_urls'
 WAGTAIL_SITE_NAME="Test Site"
 
-SECRET_KEY = 'notasecret'
+SECRET_KEY = 'not needed'
 STATIC_URL = '/static/'
 
 WAGTAIL_ROOT = os.path.dirname(__file__)
