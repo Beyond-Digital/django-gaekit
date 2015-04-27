@@ -47,8 +47,11 @@ class CloudStorage(Storage):
             return False
 
     def size(self, name):
-        stats = cloudstorage.stat(self._real_path(name))
-        return stats.st_size
+        try:
+            stats = cloudstorage.stat(self._real_path(name))
+            return stats.st_size
+        except cloudstorage.NotFoundError as exp:
+            raise OSError(str(exp))
 
     def _open(self, filename, mode):
         try:
