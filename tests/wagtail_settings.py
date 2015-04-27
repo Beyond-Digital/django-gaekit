@@ -8,13 +8,29 @@ DATABASES={
         "ENGINE": "django.db.backends.sqlite3",
     }
 }
-CACHES={
-    "default": {
-        "BACKEND": "gaekit.caches.GAEMemcachedCache"
+# CACHES={
+#     "default": {
+#         "BACKEND": "gaekit.caches.GAEMemcachedCache"
+#     }
+# }
+# DEFAULT_FILE_STORAGE='gaekit.storages.CloudStorage'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache',
     }
 }
-DEFAULT_FILE_STORAGE='gaekit.storages.CloudStorage'
-
+PASSWORD_HASHERS = (
+    'django.contrib.auth.hashers.MD5PasswordHasher',  # don't use the intentionally slow default password hasher
+)
+COMPRESS_ENABLED = False
+WAGTAILSEARCH_BACKENDS = {
+    'default': {
+        'BACKEND': 'wagtail.wagtailsearch.backends.db.DBSearch',
+    }
+}
+AUTH_USER_MODEL = 'tests.CustomUser'
 INSTALLED_APPS=[
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -22,14 +38,19 @@ INSTALLED_APPS=[
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+
     'taggit',
     'compressor',
+
     'wagtail.wagtailcore',
     'wagtail.wagtailadmin',
     'wagtail.wagtaildocs',
     'wagtail.wagtailusers',
     'wagtail.wagtailimages',
+    'wagtail.wagtailsearch',
+    'wagtail.wagtailforms',
     'wagtail.wagtailredirects.apps.WagtailRedirectsAppConfig',
+    'wagtail.tests',
 
     "gaekit",
 ]
@@ -46,6 +67,10 @@ MIDDLEWARE_CLASSES=(
 )
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
+)
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 )
 SITE_ID=1
 ROOT_URLCONF='tests.wagtail_urls'
