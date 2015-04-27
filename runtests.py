@@ -31,6 +31,9 @@ def configure_settings():
 
 def configure_wagtail_settings():
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.wagtail_settings")
+
+
+def patch_wagtail_settings():
     from wagtail import tests
     from wagtail.wagtailimages.tests import test_models
     fixture_path = os.path.join(
@@ -38,6 +41,10 @@ def configure_wagtail_settings():
     test_models.TestUsageCount.fixtures = [fixture_path]
     test_models.TestGetUsage.fixtures = [fixture_path]
     test_models.TestGetWillowImage.fixtures = [fixture_path]
+    from wagtail.wagtailimages.tests import tests
+    tests.TestMissingImage.fixtures = [fixture_path]
+    from wagtail.wagtailimages.tests import test_rich_text
+    test_rich_text.TestImageEmbedHandler.fixtures = [fixture_path]
 
 
 def init_django():
@@ -68,6 +75,9 @@ def run_tests(*test_args):
     settings_func()
     init_testbed()
     init_django()
+
+    if 'wagtail' in test_args:
+        patch_wagtail_settings()
 
     TestRunner = get_runner(settings)
     test_runner = TestRunner()
