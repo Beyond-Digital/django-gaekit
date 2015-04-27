@@ -51,8 +51,11 @@ class CloudStorage(Storage):
         return stats.st_size
 
     def _open(self, filename, mode):
-        readbuffer = cloudstorage.open(self._real_path(filename), 'r')
-        return ContentFile(readbuffer.read(), name=filename)
+        try:
+            readbuffer = cloudstorage.open(self._real_path(filename), 'r')
+            return ContentFile(readbuffer.read(), name=filename)
+        except cloudstorage.NotFoundError as exp:
+            raise IOError(str(exp))
 
     def _save(self, filename, content):
         with cloudstorage.open(
