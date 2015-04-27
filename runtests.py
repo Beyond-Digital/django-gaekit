@@ -31,6 +31,11 @@ def configure_settings():
 
 def configure_wagtail_settings():
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.wagtail_settings")
+    from wagtail.wagtailimages.tests import test_models
+    test_models.TestUsageCount.fixtures = ['tests/wagtail_fixtures.json']
+    test_models.TestGetUsage.fixtures = ['tests/wagtail_fixtures.json']
+    test_models.TestGetWillowImage.fixtures = ['tests/wagtail_fixtures.json']
+
 
 def init_django():
     try:
