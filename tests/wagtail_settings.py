@@ -78,6 +78,7 @@ WAGTAIL_SITE_NAME="Test Site"
 
 SECRET_KEY = 'not needed'
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 WAGTAIL_ROOT = os.path.dirname(__file__)
 STATIC_ROOT = os.path.join(WAGTAIL_ROOT, 'test-static')
