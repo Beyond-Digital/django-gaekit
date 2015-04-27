@@ -5,6 +5,7 @@ from google.appengine.api import app_identity
 
 from django.conf import settings
 from django.core.files.storage import Storage
+from django.core.files.base import ContentFile
 
 import mimetypes
 import cloudstorage
@@ -46,13 +47,18 @@ class CloudStorage(Storage):
             return False
 
     def size(self, name):
-        stats = cloudstorage.stat(self._real_path(name))
-        return stats.st_size
+        try:
+            stats = cloudstorage.stat(self._real_path(name))
+            return stats.st_size
+        except cloudstorage.NotFoundError as exp:
+            raise OSError(str(exp))
 
     def _open(self, filename, mode):
-        readbuffer = cloudstorage.open(self._real_path(filename), 'r')
-        readbuffer.open = lambda x: True
-        return readbuffer
+        try:
+            readbuffer = cloudstorage.open(self._real_path(filename), 'r')
+            return ContentFile(readbuffer.read(), name=filename)
+        except cloudstorage.NotFoundError as exp:
+            raise IOError(str(exp))
 
     def _save(self, filename, content):
         with cloudstorage.open(
@@ -77,10 +83,3 @@ class CloudStorage(Storage):
         return 'https://storage.googleapis.com{path}'.format(
             path=self._real_path(filename)
         )
-
-
-class CloudStaticStorage(CloudStorage):
-
-    def __init__(self, *args, **kwargs):
-        super(CloudStaticStorage, self).__init__(*args, **kwargs)
-        self.bucket_name += settings.STATIC_URL[:-1]
