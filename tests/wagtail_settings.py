@@ -1,19 +1,20 @@
 import os
 from django.conf import global_settings
 
-DEBUG=False,
-USE_TZ=True
-DATABASES={
+DEBUG = False,
+USE_TZ = True
+DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
     }
 }
-CACHES={
+
+CACHES = {
     "default": {
         "BACKEND": "gaekit.caches.GAEMemcachedCache"
     }
 }
-DEFAULT_FILE_STORAGE='gaekit.storages.CloudStorage'
+DEFAULT_FILE_STORAGE = 'gaekit.storages.CloudStorage'
 
 CACHES = {
     'default': {
@@ -22,7 +23,8 @@ CACHES = {
     }
 }
 PASSWORD_HASHERS = (
-    'django.contrib.auth.hashers.MD5PasswordHasher',  # don't use the intentionally slow default password hasher
+    # don't use the intentionally slow default password hasher
+    'django.contrib.auth.hashers.MD5PasswordHasher',
 )
 COMPRESS_ENABLED = False
 WAGTAILSEARCH_BACKENDS = {
@@ -31,7 +33,7 @@ WAGTAILSEARCH_BACKENDS = {
     }
 }
 AUTH_USER_MODEL = 'tests.CustomUser'
-INSTALLED_APPS=[
+INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.auth',
@@ -64,7 +66,8 @@ INSTALLED_APPS=[
     'wagtail.wagtailredirects.apps.WagtailRedirectsAppConfig',
     "gaekit",
 ]
-MIDDLEWARE_CLASSES=(
+
+MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -81,9 +84,9 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
-SITE_ID=1
-ROOT_URLCONF='tests.wagtail_urls'
-WAGTAIL_SITE_NAME="Test Site"
+SITE_ID = 1
+ROOT_URLCONF = 'tests.wagtail_urls'
+WAGTAIL_SITE_NAME = "Test Site"
 
 SECRET_KEY = 'not needed'
 STATIC_URL = '/static/'
