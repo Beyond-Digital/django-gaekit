@@ -3,6 +3,13 @@
 History
 ------
 
+1.0.2 (2015-04-27)
+++++++++++++++++++
+
+* Adds wagtail.wagtailimages integration tests
+* Storage.open now raises IOError if file doesn't exist
+* Storage.size now raises OSError if file doesn't exist
+
 1.0.1 (2015-03-24)
 ++++++++++++++++++
 
