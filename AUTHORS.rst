@@ -7,7 +7,9 @@ Development Lead
 
 * George Whewell <george@bynd.com>
 
+
 Contributors
 ------------
 
-None yet. Why not be the first?
+* Salvador Faria <salvador@bynd.com>
+* Paul Mison <paul@bynd.com>
